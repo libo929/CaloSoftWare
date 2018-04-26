@@ -4,6 +4,7 @@
 #include <iostream>
 #include <limits>
 #include <vector>
+#include <array>
 
 #include <CaloObject/Asic.h>
 
@@ -14,7 +15,7 @@ class Layer
 {
 	public :
 		Layer(int _id) ;
-		virtual ~Layer() ;
+		virtual ~Layer() = default ;
 
 		void setPosition(CLHEP::Hep3Vector pos) { position = pos ; }
 
@@ -24,6 +25,7 @@ class Layer
 		double getEfficiency() const { return efficiencies.at(0) ; }
 		virtual const std::vector<double>& getEfficiencies() { updateEfficiencies() ; return efficiencies ; }
 		virtual std::vector<double> getEfficienciesError() const ;
+		virtual std::array< std::vector<double> , 2> getEfficienciesBound() const ;
 
 
 		virtual const std::vector<double>& getMultiplicities() { updateMultiplicities() ; return multiplicities ; }
@@ -76,10 +78,7 @@ class SDHCALLayer : public Layer
 {
 	public :
 		SDHCALLayer(int _id , int difL , int difC , int difR) ;
-		virtual ~SDHCALLayer() { ; }
-
-		//		virtual void update(const CLHEP::Hep3Vector& impactPos , CaloCluster2D* cluster = NULL) ;
-
+		virtual ~SDHCALLayer() = default ;
 
 		static const int asicTab[12][4] ;
 		static const int iAsicTab[48] ;

@@ -19,7 +19,7 @@ class Pad
 {
 	public :
 		Pad(int _id) ;
-		virtual ~Pad() ;
+		virtual ~Pad() = default ;
 
 		void setAsic(caloobject::Asic* _asic) { asic = _asic ; }
 		void setPosition(CLHEP::Hep3Vector pos) { position = pos ; }
@@ -30,7 +30,7 @@ class Pad
 		double getEfficiency() const { return efficiencies.at(0) ; }
 		virtual const std::vector<double>& getEfficiencies() { updateEfficiencies() ; return efficiencies ; }
 		virtual std::vector<double> getEfficienciesError() const ;
-
+		virtual std::array< std::vector<double> , 2> getEfficienciesBound() const ;
 
 		virtual const std::vector<double>& getMultiplicities() { updateMultiplicities() ; return multiplicities ; }
 		virtual std::vector<double> getMultiplicitiesError() const ;
@@ -74,9 +74,7 @@ class SDHCALPad : public Pad
 {
 	public :
 		SDHCALPad(int _id) ;
-		virtual ~SDHCALPad() ;
-
-		//		virtual void update(CaloCluster2D* cluster = NULL) ;
+		virtual ~SDHCALPad() = default ;
 
 	protected :
 

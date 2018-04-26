@@ -19,7 +19,7 @@ class Asic
 {
 	public :
 		Asic(int _id , int _difID = -1) ;
-		virtual ~Asic() ;
+		virtual ~Asic() = default ;
 
 		void setLayer(caloobject::Layer* _layer) { layer = _layer ; }
 		void setPosition(CLHEP::Hep3Vector pos) { position = pos ; }
@@ -30,6 +30,7 @@ class Asic
 		double getEfficiency() const { return efficiencies.at(0) ; }
 		virtual const std::vector<double>& getEfficiencies() { updateEfficiencies() ; return efficiencies ; }
 		virtual std::vector<double> getEfficienciesError() const ;
+		virtual std::array< std::vector<double> , 2> getEfficienciesBound() const ;
 
 		virtual const std::vector<double>& getMultiplicities() { updateMultiplicities() ; return multiplicities ; }
 		virtual std::vector<double> getMultiplicitiesError() const ;
@@ -85,10 +86,7 @@ class SDHCALAsic : public Asic
 {
 	public :
 		SDHCALAsic(int _id , int _difID) ;
-		virtual ~SDHCALAsic() { ; }
-
-//		virtual void update(const CLHEP::Hep3Vector& impactPos , CaloCluster2D* cluster = NULL) ;
-
+		virtual ~SDHCALAsic() = default ;
 
 		static const int padTab[8][8] ;
 		static const int iPadTab[64] ;

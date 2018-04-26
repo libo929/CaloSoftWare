@@ -1,5 +1,7 @@
 #include "CaloObject/Pad.h"
 
+#include <TEfficiency.h>
+
 namespace caloobject
 {
 
@@ -14,10 +16,6 @@ Pad::Pad(int _id)
 	multiSquareSumVec.push_back(0.0) ;
 	multiplicities.push_back(0.0) ;
 }
-
-
-Pad::~Pad()
-{}
 
 void Pad::reset()
 {
@@ -64,6 +62,33 @@ std::vector<double> Pad::getEfficienciesError() const
 		effErr = sqrt( eff*(1-eff)/nTracks ) ;
 		toReturn.push_back(effErr) ;
 	}
+	return toReturn ;
+}
+
+std::array< std::vector<double> , 2> Pad::getEfficienciesBound() const
+{
+	constexpr double level = 0.683 ;
+
+	std::vector<double> lowerBoundVec = {} ;
+	std::vector<double> upperBoundVec = {} ;
+
+	lowerBoundVec.reserve( nDetected.size() ) ;
+	upperBoundVec.reserve( nDetected.size() ) ;
+
+	for ( unsigned int i = 0 ; i < nDetected.size() ; ++i )
+	{
+		double a = double( nDetected.at(i) ) + 1 ;
+		double b = double( nTracks - nDetected.at(i) ) + 1 ;
+
+		double lowerBound = 0 ;
+		double upperBound = 0 ;
+		TEfficiency::BetaShortestInterval( level , a , b , lowerBound , upperBound ) ;
+
+		lowerBoundVec.push_back( lowerBound ) ;
+		upperBoundVec.push_back( upperBound ) ;
+	}
+
+	std::array< std::vector<double> , 2> toReturn = {{ lowerBoundVec , upperBoundVec }} ;
 	return toReturn ;
 }
 
@@ -145,13 +170,6 @@ SDHCALPad::SDHCALPad(int _id)
 	: Pad(_id)
 {
 }
-
-SDHCALPad::~SDHCALPad()
-{
-}
-
-
-
 
 
 } //namespace caloobject
