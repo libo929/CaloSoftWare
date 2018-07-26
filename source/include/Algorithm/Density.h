@@ -29,6 +29,7 @@ class DensityDistanceFunction3By3 : public DensityDistanceFunction
 		virtual ~DensityDistanceFunction3By3() ;
 
 		virtual float eval(caloobject::CaloHit* hitA , caloobject::CaloHit* hitB) const ;
+		virtual float eval2(caloobject::CaloHit* hitA , caloobject::CaloHit* hitB) const ;
 
 	protected :
 
@@ -42,6 +43,7 @@ class Density
 		~Density() ;
 
 		float compute(HitVec& hitVec) ;
+		float compute2(HitVec& hitVec) ;
 
 		const std::map<caloobject::CaloHit* , float>& getDensityPerHit() const { return densityPerHit ; }
 
@@ -53,6 +55,7 @@ class Density
 		DensityDistanceFunction* densityFunc ;
 
 		std::map<caloobject::CaloHit* , float> densityPerHit ;
+		std::map<caloobject::CaloHit* , float> densityPerHit2 ;
 } ;
 
 
