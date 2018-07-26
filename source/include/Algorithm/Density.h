@@ -17,6 +17,7 @@ class DensityDistanceFunction
 		virtual ~DensityDistanceFunction() ;
 
 		virtual float eval(caloobject::CaloHit* hitA , caloobject::CaloHit* hitB) const = 0 ;
+		virtual float eval2(caloobject::CaloHit* hitA , caloobject::CaloHit* hitB) const = 0 ;
 
 	protected :
 
